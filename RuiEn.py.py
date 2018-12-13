@@ -11,10 +11,17 @@ def SnakeDraw(canvas):
         snake3 = canvas.create_rectangle(10,10,60,60, fill="blue",tags="snake")
         snake2 = canvas.create_rectangle(where_am_i2, fill="blue",tags="snake")
         snake1 = canvas.create_rectangle(where_am_i1, fill="blue",tags="snake")
-        snake0 = canvas.create_rectangle(160,10,210,60, fill="blue",tags="snake")
         moved = False
 
-        
+def growSnake(snakeFollow,number):
+    while number > 0:
+        placement = length - 1
+        c = canvas.coords(snakeFollow[placement])
+        s = canvas.create_rectangle(c, fill="blue", tags="snake")
+        snakeFollow.append(c)
+        canvas.move(snakeFollow[placement], -50, 0)
+        number = number - 1
+
 def MoveRectangle(event):
     moved = False
     if event.keysym == 'Up':
@@ -37,7 +44,9 @@ def MoveRectangle(event):
     print(where_am_i3)
     where_am_i4 = canvas.coords(snake3)
     print(where_am_i4)
-    
+
+
+
 root=Tk()
 
 canvas = Canvas(width=500, height=500)
@@ -45,20 +54,28 @@ snake0 = ''
 snake1 = ''
 snake2 = ''
 snake3 = ''
-
+snakeFollow = []
+number = 1
 canvas.pack()
 
 canvas.bind_all('<KeyPress-Right>', MoveRectangle)
 canvas.bind_all('<KeyPress-Left>', MoveRectangle)
 canvas.bind_all('<KeyPress-Up>', MoveRectangle)
-canvas.bind_all('<KeyPress-Down>', MoveRectangle)
-    
+canvas.bind_all('<KeyPress-Down>', print (snakeFollow)
+                
+#Draws the head
+snake = canvas.create_rectangle(160,10,210,60, fill="blue",tags="snake")
 
-SnakeDraw(canvas)
+snakeFollow.append(snake)
+
+length = len(snakeFollow)
+       
 MoveRectangle(event)
-
-
+                
+print (snakeFollow)
+                
+growsnake(snakeFollow,number)
 
 root.mainloop()
 
-    
+
