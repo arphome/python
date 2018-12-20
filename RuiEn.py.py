@@ -16,10 +16,11 @@ def SnakeDraw(canvas):
 def growSnake(snakeFollow,number):
     while number > 0:
         placement = length - 1
-        c = canvas.coords(snakeFollow[placement])
+        c = snakeFollow[placement]
         s = canvas.create_rectangle(c, fill="blue", tags="snake")
         snakeFollow.append(c)
         canvas.move(snakeFollow[placement], -50, 0)
+        print(snakeFollow)
         number = number - 1
 
 def MoveRectangle(event):
@@ -45,8 +46,6 @@ def MoveRectangle(event):
     where_am_i4 = canvas.coords(snake3)
     print(where_am_i4)
 
-
-
 root=Tk()
 
 canvas = Canvas(width=500, height=500)
@@ -54,28 +53,31 @@ snake0 = ''
 snake1 = ''
 snake2 = ''
 snake3 = ''
-snakeFollow = []
-number = 1
+snakeFollow = [] #snakeFollow is a list that contains coords of snake parts
+number = 2
 canvas.pack()
 
 canvas.bind_all('<KeyPress-Right>', MoveRectangle)
 canvas.bind_all('<KeyPress-Left>', MoveRectangle)
 canvas.bind_all('<KeyPress-Up>', MoveRectangle)
-canvas.bind_all('<KeyPress-Down>', print (snakeFollow)
+canvas.bind_all('<KeyPress-Down>', MoveRectangle)
                 
 #Draws the head
 snake = canvas.create_rectangle(160,10,210,60, fill="blue",tags="snake")
 
-snakeFollow.append(snake)
+snakeFollow.append(canvas.coords(snake))
+
+print(snakeFollow)
 
 length = len(snakeFollow)
-       
-MoveRectangle(event)
                 
-print (snakeFollow)
-                
-growsnake(snakeFollow,number)
+growSnake(snakeFollow,number)
+
+SnakeDraw(canvas)
 
 root.mainloop()
+
+
+
 
 
