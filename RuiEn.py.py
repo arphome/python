@@ -77,4 +77,3 @@ growSnake(snakeFollow,number)
 root.mainloop()
 
 
-
