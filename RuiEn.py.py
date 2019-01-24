@@ -7,35 +7,35 @@ from tkinter import *
 def growSnake(snakeFollow,number):
     placement = length - 1
     while number > 0:
-        c = snakeFollow[placement]
+        c = canvas.coords(snakeFollow[placement])
         s = canvas.create_rectangle(c, fill="red", tags = "snake")
         canvas.move(s,-50, 0)
-        snake.append(s)
         number = number - 1
         placement = placement + 1
-        snakeFollow.append(canvas.coords(s))
-        new.append(canvas.coords(s))
-    print (snake)
+        snakeFollow.append(s)
 
 def MoveRectangle(event):
     moved = False
-    SnakeLength = length - 1
+    SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
-    if SnakeLength >= 0:
-        canvas.coords(snake[SnakeLength], snake[moveSnake])
+    print (moveSnake)
+    print (SnakeLength)
+    if SnakeLength >= 1:
+        canvas.coords(snakeFollow[SnakeLength], canvas.coords(snakeFollow[moveSnake]))
         SnakeLength - 1
         moveSnake - 1
+        
     if event.keysym == 'Up':
-        canvas.move(snake[0], 0, -50)
+        canvas.move(snakeFollow[0], 0, -50)
         moved = True
     elif event.keysym == 'Down':
-        canvas.move(snake[0], 0, 50)
+        canvas.move(snakeFollow[0], 0, 50)
         moved = True
     elif event.keysym == 'Right':
-        canvas.move(snake[0], 50, 0)
+        canvas.move(snakeFollow[0], 50, 0)
         moved = True
     elif event.keysym == 'Left':
-        canvas.move(snake[0],-50, 0)
+        canvas.move(snakeFollow[0],-50, 0)
         moved = True
             
 
@@ -43,13 +43,10 @@ def MoveRectangle(event):
 root=Tk()
 
 canvas = Canvas(width=1000, height=1000)
-snake0 = ''
-snake1 = ''
-snake2 = ''
-snake3 = ''
-snakeFollow = [] #snakeFollow is a list that contains coords of snake parts
+snakeFollow = [] #snakeFollow is a list that contains coords snake canvas parts
 number = 2
-new = []
+c = ""
+event = ""
 
 canvas.pack()
 
@@ -61,19 +58,23 @@ canvas.bind_all('<KeyPress-Up>', MoveRectangle)
 canvas.bind_all('<KeyPress-Down>', MoveRectangle)
                 
 #Draws the head
-snake = []
+
 
 s = canvas.create_rectangle(160,10,210,60, fill="blue",tags="snake")
-snake.append(s)
 
-snakeFollow.append(canvas.coords("snake"))
+
+snakeFollow.append(s)
 
 length = len(snakeFollow)
 
+
+
 growSnake(snakeFollow,number)
 
+    
 #SnakeDraw(canvas)
 
 root.mainloop()
+
 
 
