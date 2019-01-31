@@ -13,17 +13,20 @@ def growSnake(snakeFollow,number):
         number = number - 1
         placement = placement + 1
         snakeFollow.append(s)
-
+        
 def MoveRectangle(event):
     moved = False
     SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
-    print (moveSnake)
-    print (SnakeLength)
-    if SnakeLength >= 1:
-        canvas.coords(snakeFollow[SnakeLength], canvas.coords(snakeFollow[moveSnake]))
-        SnakeLength - 1
-        moveSnake - 1
+    while moveSnake >= 0:
+        if SnakeLength >= 1:
+            canvas.coords(snakeFollow[SnakeLength], canvas.coords(snakeFollow[moveSnake]))
+            SnakeLength = SnakeLength - 1
+            moveSnake = moveSnake - 1
+        elif moveSnake == 0:
+            SnakeLength = len(snakeFollow) - 1
+            moveSnake = SnakeLength - 1
+        
         
     if event.keysym == 'Up':
         canvas.move(snakeFollow[0], 0, -50)
@@ -44,7 +47,7 @@ root=Tk()
 
 canvas = Canvas(width=1000, height=1000)
 snakeFollow = [] #snakeFollow is a list that contains coords snake canvas parts
-number = 2
+number = 5
 c = ""
 event = ""
 
@@ -75,6 +78,5 @@ growSnake(snakeFollow,number)
 #SnakeDraw(canvas)
 
 root.mainloop()
-
 
 
