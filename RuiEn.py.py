@@ -14,31 +14,40 @@ def growSnake(snakeFollow,number):
         placement = placement + 1
         snakeFollow.append(s)
         
-def appleMaker(apple):
+def appleMaker(apple, x, xx, y, yy):
+  print(x,y,xx,yy)
   while apple >= 0:
-    circle = canvas.create_oval(x, xx,y, yy, outline='black', fill='red')
+    x = random.randint(25,750)
+    xx = x + 50
+    y = random.randint(25,750)
+    yy = y + 50
+    circle = canvas.create_oval(x, y,xx, yy, outline='black', fill='red')
     apple = apple - 1
     shapes.append(circle)
-
+    print(x,y,xx,yy)
         
-def snakeTouchApple(x, y):
+def snakeTouchApple():
+    print(x,y,xx,yy)
     coords = canvas.coords(snakeFollow[0])
     x1 = coords[0]
     y1 = coords[1]
     xx1 = coords[2]
     yy1 = coords[3]
-    print (abs(x1 - x) <= 50) and (abs(y1 - y) <= 50) and (abs(xx1 - xx) <= 50) and (abs(yy1 - yy) <= 50)
-    if (abs(x1 - x) <= 50) and (abs(y1 - y) <= 50) and (abs(xx1 - xx) <= 50) and (abs(yy1 - yy) <= 50):
+    print (x1 - x)
+    print (y1 - y)
+    print (xx1 - x)
+    print (yy1 - yy)
+    print ((abs(x1 - x) <= 50) and (abs(y1 - y) <= 50) and (abs(xx1 - xx) <= 50) and (abs(yy1 - yy) <= 50))
+    if ((abs(x1 - x) <= 50) and (abs(y1 - y) <= 50) and (abs(xx1 - xx) <= 50) and (abs(yy1 - yy) <= 50)):
         print ("apple")
         canvas.delete(shapes[0])
-        
-
 
      
 def MoveRectangle(event):
+    print(x,y,xx,yy)
     moved = True
     if moved == True:
-        snakeTouchApple(x, y)
+        snakeTouchApple()
     SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
     while moveSnake >= 0:
@@ -88,10 +97,10 @@ xx1 = x1 + 50
 yy1 = y1 + 50
 
 #Test Coords to hold the coords for the apple
-x = random.randint(25,750)
-y = x + 50
-xx = random.randint(25,750)
-yy = xx + 50
+x = 0
+xx = 0
+y = 0
+yy = 0
 
 s = canvas.create_rectangle(x1,xx1,y1,yy1, fill="blue",tags="snake")
 
@@ -102,12 +111,13 @@ length = len(snakeFollow)
 
 growSnake(snakeFollow,number)
 
-appleMaker(apple)
+appleMaker(apple, x, xx, y, yy)
 
     
 #SnakeDraw(canvas)
 
 root.mainloop()
+
 
 
 
