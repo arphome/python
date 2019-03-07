@@ -14,8 +14,7 @@ def growSnake(snakeFollow,number):
         placement = placement + 1
         snakeFollow.append(s)
         
-def appleMaker(apple, x, xx, y, yy):
-  print(x,y,xx,yy)
+def appleMaker(apple):
   while apple >= 0:
     x = random.randint(25,750)
     xx = x + 50
@@ -23,31 +22,34 @@ def appleMaker(apple, x, xx, y, yy):
     yy = y + 50
     circle = canvas.create_oval(x, y,xx, yy, outline='black', fill='red')
     apple = apple - 1
-    shapes.append(circle)
-    print(x,y,xx,yy)
+    appleC.append(circle)
         
-def snakeTouchApple():
-    print(x,y,xx,yy)
+def snakeTouchApple(score):
+    print (appleC)
+    Coords = canvas.coords(appleC[0])
+    ax = Coords[0]
+    axx = Coords[1]
+    ay = Coords[2]
+    ayy = Coords[3]
     coords = canvas.coords(snakeFollow[0])
     x1 = coords[0]
-    y1 = coords[1]
-    xx1 = coords[2]
+    xx1 = coords[1]
+    y1 = coords[2]                                                               
     yy1 = coords[3]
-    print (x1 - x)
-    print (y1 - y)
-    print (xx1 - x)
-    print (yy1 - yy)
-    print ((abs(x1 - x) <= 50) and (abs(y1 - y) <= 50) and (abs(xx1 - xx) <= 50) and (abs(yy1 - yy) <= 50))
-    if ((abs(x1 - x) <= 50) and (abs(y1 - y) <= 50) and (abs(xx1 - xx) <= 50) and (abs(yy1 - yy) <= 50)):
-        print ("apple")
-        canvas.delete(shapes[0])
-
-     
+    if ((abs(x1 - ax) <= 50) and (abs(y1 - ay) <= 50) and (abs(xx1 - axx) <= 50) and (abs(yy1 - ayy) <= 50)):
+        print ("YUMM!")
+        apple = appleC[0]
+        appleC.remove(appleC[0])
+        canvas.delete(apple)
+        appleMaker(0)
+        growSnake(snakeFollow,number)
+        score = score + 1
+        print (score)
+        
 def MoveRectangle(event):
-    print(x,y,xx,yy)
     moved = True
     if moved == True:
-        snakeTouchApple()
+        snakeTouchApple(score)
     SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
     while moveSnake >= 0:
@@ -76,11 +78,12 @@ root=Tk()
 
 canvas = Canvas(width=1000, height=1000)
 snakeFollow = [] #snakeFollow is a list that contains coords snake canvas parts
-number = 5
+number = 1
+circle = ""
+appleC = []
 c = ""
 event = ""
-apple = 0
-shapes = []
+apple = 0 #number of apples
 canvas.pack()
 
 
@@ -97,13 +100,14 @@ xx1 = x1 + 50
 yy1 = y1 + 50
 
 #Test Coords to hold the coords for the apple
-x = 0
-xx = 0
-y = 0
-yy = 0
+score = 0
+ax = 0
+axx = 0
+ay = 0
+ayy = 0
+Coords = []
 
 s = canvas.create_rectangle(x1,xx1,y1,yy1, fill="blue",tags="snake")
-
 
 snakeFollow.append(s)
 
@@ -111,13 +115,10 @@ length = len(snakeFollow)
 
 growSnake(snakeFollow,number)
 
-appleMaker(apple, x, xx, y, yy)
+appleMaker(apple)
 
     
 #SnakeDraw(canvas)
 
 root.mainloop()
-
-
-
 
