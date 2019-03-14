@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+import time
 #def SnakeDraw(canvas):
 
 
@@ -24,8 +25,7 @@ def appleMaker(apple):
     apple = apple - 1
     appleC.append(circle)
         
-def snakeTouchApple(score):
-    print (appleC)
+def snakeTouchApple():
     Coords = canvas.coords(appleC[0])
     ax = Coords[0]
     axx = Coords[1]
@@ -43,13 +43,21 @@ def snakeTouchApple(score):
         canvas.delete(apple)
         appleMaker(0)
         growSnake(snakeFollow,number)
-        score = score + 1
-        print (score)
-        
+        ScoreCounter(text)
+
+def ScoreCounter(text):
+    global score
+    canvas.create_text(75, 25, text= 'score =', font = ('Robot', 30))
+    text = canvas.create_text(175, 28, text= score, font = ('Robot', 30), tag = "scoretag")
+    textlist.append(text)
+    canvas.delete(text)
+    score = score + 1
+    print (score)
+    
 def MoveRectangle(event):
     moved = True
     if moved == True:
-        snakeTouchApple(score)
+        snakeTouchApple()
     SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
     while moveSnake >= 0:
@@ -63,16 +71,19 @@ def MoveRectangle(event):
     if event.keysym == 'Up':
         canvas.move(snakeFollow[0], 0, -50)
         moved = True
-    elif event.keysym == 'Down':
+        time.sleep(0.1)
+    if event.keysym == 'Down':
         canvas.move(snakeFollow[0], 0, 50)
         moved = True
-    elif event.keysym == 'Right':
+        time.sleep(0.1)
+    if event.keysym == 'Right':
         canvas.move(snakeFollow[0], 50, 0)
         moved = True
-    elif event.keysym == 'Left':
+        time.sleep(0.1)
+    if event.keysym == 'Left':
         canvas.move(snakeFollow[0],-50, 0)
         moved = True       
-
+        time.sleep(0.1)
 
 root=Tk()
 
@@ -85,7 +96,7 @@ c = ""
 event = ""
 apple = 0 #number of apples
 canvas.pack()
-
+textlist = []
 
 
 canvas.bind_all('<KeyPress-Right>', MoveRectangle)
@@ -98,9 +109,9 @@ y1 = 0
 x1 = 50
 xx1 = x1 + 50
 yy1 = y1 + 50
+score = 0
 
 #Test Coords to hold the coords for the apple
-score = 0
 ax = 0
 axx = 0
 ay = 0
@@ -117,8 +128,11 @@ growSnake(snakeFollow,number)
 
 appleMaker(apple)
 
-    
+
 #SnakeDraw(canvas)
 
 root.mainloop()
+
+
+
 
