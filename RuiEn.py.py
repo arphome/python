@@ -9,7 +9,7 @@ def growSnake(snakeFollow,number):
     placement = length - 1
     while number > 0:
         c = canvas.coords(snakeFollow[placement])
-        s = canvas.create_rectangle(c, fill="green", tags = "snake")
+        s = canvas.create_rectangle(c, outline = 'white', fill="green", tags = "snake")
         canvas.move(s,-50, 0)
         number = number - 1
         placement = placement + 1
@@ -17,15 +17,16 @@ def growSnake(snakeFollow,number):
         
 def appleMaker(apple):
   while apple >= 0:
-    x = random.randint(25,750)
+    x = random.randint(25,600)
     xx = x + 50
-    y = random.randint(25,750)
+    y = random.randint(25,600)
     yy = y + 50
-    circle = canvas.create_oval(x, y,xx, yy, outline='black', fill='red')
+    circle = canvas.create_oval(x, y,xx, yy, outline='white', fill='red')
     apple = apple - 1
     appleC.append(circle)
         
 def snakeTouchApple():
+
     Coords = canvas.coords(appleC[0])
     ax = Coords[0]
     axx = Coords[1]
@@ -47,17 +48,17 @@ def snakeTouchApple():
 
 def ScoreCounter(text):
     global score
+    score = score + 1
+    canvas.delete("scoretag")
     canvas.create_text(75, 25, text= 'score =', font = ('Robot', 30))
     text = canvas.create_text(175, 28, text= score, font = ('Robot', 30), tag = "scoretag")
-    textlist.append(text)
-    canvas.delete(text)
-    score = score + 1
-    print (score)
+    print (text)
     
 def MoveRectangle(event):
     moved = True
     if moved == True:
         snakeTouchApple()
+        CheckBox()
     SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
     while moveSnake >= 0:
@@ -71,20 +72,26 @@ def MoveRectangle(event):
     if event.keysym == 'Up':
         canvas.move(snakeFollow[0], 0, -50)
         moved = True
-        time.sleep(0.1)
     if event.keysym == 'Down':
         canvas.move(snakeFollow[0], 0, 50)
         moved = True
-        time.sleep(0.1)
     if event.keysym == 'Right':
         canvas.move(snakeFollow[0], 50, 0)
         moved = True
-        time.sleep(0.1)
     if event.keysym == 'Left':
         canvas.move(snakeFollow[0],-50, 0)
-        moved = True       
-        time.sleep(0.1)
+        moved = True    
 
+def CheckBox():
+    coords = canvas.coords(snakeFollow[0])
+    x1 = coords[0]
+    xx1 = coords[1]
+    y1 = coords[2]                                                               
+    yy1 = coords[3]
+    print (abs(x1 <50)) or (abs(xx1 > 950))
+    if (abs(x1 < 50)) or (abs(xx1 > 950)) or (abs(y1 > 50)) or (abs(yy1 < 950)):
+        print ("Game OVER")
+        
 root=Tk()
 
 canvas = Canvas(width=1000, height=1000)
@@ -105,8 +112,8 @@ canvas.bind_all('<KeyPress-Up>', MoveRectangle)
 canvas.bind_all('<KeyPress-Down>', MoveRectangle)
                 
 #Draws the head
-y1 = 0
-x1 = 50
+y1 = 150
+x1 = 200
 xx1 = x1 + 50
 yy1 = y1 + 50
 score = 0
@@ -117,8 +124,12 @@ axx = 0
 ay = 0
 ayy = 0
 Coords = []
+coords = []
+text = ""
 
-s = canvas.create_rectangle(x1,xx1,y1,yy1, fill="blue",tags="snake")
+canvas.create_rectangle(50,50,950,950, outline='red', fill="black")
+
+s = canvas.create_rectangle(x1,xx1,y1,yy1, outline='white', fill="blue",tags="snake")
 
 snakeFollow.append(s)
 
@@ -128,6 +139,7 @@ growSnake(snakeFollow,number)
 
 appleMaker(apple)
 
+ScoreCounter(text)
 
 #SnakeDraw(canvas)
 
