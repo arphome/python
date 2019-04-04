@@ -9,10 +9,11 @@ def growSnake(snakeFollow,number):
     placement = length - 1
     while number > 0:
         c = canvas.coords(snakeFollow[placement])
-        s = canvas.create_rectangle(c, outline = 'white', fill="green", tags = "snake")
+        s = canvas.create_rectangle(c, outline = 'cyan', fill="sky blue", tags = "snake")
         canvas.move(s,-50, 0)
         number = number - 1
         placement = placement + 1
+        print (placement)
         snakeFollow.append(s)
         
 def appleMaker(apple):
@@ -52,13 +53,13 @@ def ScoreCounter(text):
     canvas.delete("scoretag")
     canvas.create_text(75, 25, text= 'score =', font = ('Robot', 30))
     text = canvas.create_text(175, 28, text= score, font = ('Robot', 30), tag = "scoretag")
-    print (text)
     
 def MoveRectangle(event):
     moved = True
     if moved == True:
         snakeTouchApple()
         CheckBox()
+        TouchTail()
     SnakeLength = len(snakeFollow) - 1
     moveSnake = SnakeLength - 1
     while moveSnake >= 0:
@@ -80,16 +81,34 @@ def MoveRectangle(event):
         moved = True
     if event.keysym == 'Left':
         canvas.move(snakeFollow[0],-50, 0)
-        moved = True    
+        moved = True
 
+def TouchTail():
+    coords = canvas.coords(snakeFollow[0])
+    x1 = coords[0]
+    y1= coords[1]
+    x2 = coords[2]                                                               
+    y2 = coords[3]
+    lengthtails= len(snakeFollow) - 1
+    coordstails = canvas.coords(snakeFollow[lengthtails])
+    tailx1 = coordstails[0]
+    taily1 = coordstails[1]
+    tailx2 = coordstails[2]
+    taily2 = coordstails[3]
+    while lengthtails > 0:
+        if (abs(x1 - tailx1) <= 50) and (abs(y1 - taily1) <= 50) and (abs(x2 - tailx2) <= 50) and (abs(y2 - taily2) <= 50):
+            print ("Game Over")
+            lengthtails = 0
+        else:
+            lengthtails = lengthtails - 1
+    
 def CheckBox():
     coords = canvas.coords(snakeFollow[0])
     x1 = coords[0]
-    xx1 = coords[1]
-    y1 = coords[2]                                                               
-    yy1 = coords[3]
-    print (abs(x1 <50)) or (abs(xx1 > 950))
-    if (abs(x1 < 50)) or (abs(xx1 > 950)) or (abs(y1 > 50)) or (abs(yy1 < 950)):
+    y1= coords[1]
+    x2 = coords[2]                                                               
+    y2 = coords[3]
+    if (abs(x1 < 50)) or (abs(y1 < 50)) or (abs(x2 > 950)) or (abs(y2 > 950)):
         print ("Game OVER")
         
 root=Tk()
@@ -117,6 +136,7 @@ x1 = 200
 xx1 = x1 + 50
 yy1 = y1 + 50
 score = 0
+lengthtails = 0
 
 #Test Coords to hold the coords for the apple
 ax = 0
@@ -129,7 +149,7 @@ text = ""
 
 canvas.create_rectangle(50,50,950,950, outline='red', fill="black")
 
-s = canvas.create_rectangle(x1,xx1,y1,yy1, outline='white', fill="blue",tags="snake")
+s = canvas.create_rectangle(x1,xx1,y1,yy1, outline='sky blue', fill="cyan",tags="snake")
 
 snakeFollow.append(s)
 
